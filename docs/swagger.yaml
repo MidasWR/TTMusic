@@ -1,0 +1,132 @@
+definitions:
+  server.Song:
+    properties:
+      author:
+        type: string
+      dateRelease:
+        type: string
+      name:
+        type: string
+      songID:
+        type: integer
+      text:
+        type: string
+    type: object
+info:
+  contact: {}
+paths:
+  /info/add:
+    get:
+      consumes:
+      - application/json
+      description: Add a song to the playlist by song name and group
+      parameters:
+      - description: Song Name
+        in: query
+        name: song
+        required: true
+        type: string
+      - description: Song Group
+        in: query
+        name: group
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Song added successfully
+          schema:
+            type: string
+      summary: Add a new song to the playlist
+  /info/drop/all:
+    get:
+      consumes:
+      - application/json
+      description: Delete all songs from the playlist
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: All songs deleted successfully
+          schema:
+            type: string
+      summary: Delete all songs from the playlist
+  /info/drop/one:
+    get:
+      consumes:
+      - application/json
+      description: Delete a specific song by its ID
+      parameters:
+      - description: Song ID
+        in: query
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Song deleted successfully
+          schema:
+            type: string
+      summary: Delete a song by ID
+  /info/get/one:
+    get:
+      consumes:
+      - application/json
+      description: Get a specific song by its ID
+      parameters:
+      - description: Song ID
+        in: query
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Song data
+          schema:
+            $ref: '#/definitions/server.Song'
+      summary: Get a song by its ID
+  /info/get/pg:
+    get:
+      consumes:
+      - application/json
+      description: Get a list of songs with pagination
+      parameters:
+      - description: Page number
+        in: query
+        name: page
+        required: true
+        type: integer
+      - description: Number of songs per page
+        in: query
+        name: per_page
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: List of songs
+          schema:
+            items:
+              $ref: '#/definitions/server.Song'
+            type: array
+      summary: Get songs with pagination
+  /info/start:
+    get:
+      consumes:
+      - application/json
+      description: Start the server and listen to the specified port
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Server started
+          schema:
+            type: string
+      summary: Start the server
+swagger: "2.0"
