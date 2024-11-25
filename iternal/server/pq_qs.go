@@ -69,7 +69,7 @@ func DropAllFromPQ(db *sql.DB) error {
 }
 func GetWithPaginationFromPQ(db *sql.DB, per_page int, page int) ([]Song, error) {
 	var songs []Song
-	rows, err := db.Query("SELECT * FROM playlist WHERE id BETWEEN $1 AND $2;", per_page*(page-1), page*per_page)
+	rows, err := db.Query("SELECT * FROM playlist LIMIT $1 OFFSET $2;", per_page, page*per_page)
 	if err != nil {
 		logrus.WithFields(logrus.Fields{
 			"error": err,
